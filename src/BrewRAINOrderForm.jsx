@@ -47,7 +47,7 @@ function Line() {
 function ProductCard({ p, onAdd }) {
   const [size, setSize] = useState(SIZES[0].id);
   const [qty, setQty] = useState(1);
-  const [ice, setIce] = useState(ICE_LEVELS[2]);
+  const [ice, setIce] = useState(ICE_LEVELS[0]);
   const [sugar, setSugar] = useState(SUGAR_LEVELS[3]);
   const [notes, setNotes] = useState("");
 
