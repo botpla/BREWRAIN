@@ -241,16 +241,22 @@ export default function BrewRAINOrderForm() {
   };
 
   const openWA = (target = "seller") => {
-    // Biar baris baru & emoji tampil normal di WhatsApp
-const text = makeText()
-  .replace(/\n/g, '%0A')       // ubah newline jadi enter
-  .replace(/🙏/g, '%F0%9F%99%8F'); // ubah emoji jadi aman
-    const sellerNumber = "6285155178234";
-    const url = target === "seller" && sellerNumber
+  // bikin teks order
+  const message = makeText();
+
+  // ubah newline (\n) ke %0A sebelum encode
+  const text = encodeURI(message.replace(/\n/g, "\r\n"));
+
+  // nomor WA seller kamu
+  const sellerNumber = "6285155178234";
+  const url =
+    target === "seller" && sellerNumber
       ? `https://wa.me/${sellerNumber}?text=${text}`
       : `https://wa.me/?text=${text}`;
-    window.open(url, "_blank");
-  };
+
+  window.open(url, "_blank");
+};
+
 
   const onPrint = () => {
     const w = window.open("", "_blank");
