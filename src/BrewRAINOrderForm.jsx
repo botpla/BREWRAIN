@@ -236,7 +236,7 @@ export default function BrewRAINOrderForm() {
   const info = [
     `Nama: ${name || '-'}`,
     `WA: ${phone || '-'}`,
-    `Alamat: ${address || '-'}`,
+    `Jam Istirahat Diantar: ${address || '-'}`,
   ];
 
   const lines = cart.map((it, idx) =>
