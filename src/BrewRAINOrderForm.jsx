@@ -241,7 +241,10 @@ export default function BrewRAINOrderForm() {
   };
 
   const openWA = (target = "seller") => {
-    const text = encodeURIComponent(makeText());
+    // Biar baris baru & emoji tampil normal di WhatsApp
+const text = makeText()
+  .replace(/\n/g, '%0A')       // ubah newline jadi enter
+  .replace(/🙏/g, '%F0%9F%99%8F'); // ubah emoji jadi aman
     const sellerNumber = "6285155178234";
     const url = target === "seller" && sellerNumber
       ? `https://wa.me/${sellerNumber}?text=${text}`
