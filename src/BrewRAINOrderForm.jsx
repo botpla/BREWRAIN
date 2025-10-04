@@ -231,26 +231,34 @@ export default function BrewRAINOrderForm() {
 
   const makeText = () => {
   const header = `*BrewRAIN – Order*`;
+
   const info = [
     `Nama: ${name || '-'}`,
     `WA: ${phone || '-'}`,
     `Alamat: ${address || '-'}`,
   ];
-  const lines = cart.map((it, idx) => (
+
+  const lines = cart.map((it, idx) =>
     `${idx + 1}. ${it.name} (${it.sizeLabel}) x${it.qty}
-   Es: ${it.ice} • Gula: ${it.sugar}${it.notes ? `
-   Note: ${it.notes}` : ''}
+   Es: ${it.ice} • Gula: ${it.sugar}${it.notes ? `\n   Note: ${it.notes}` : ''}
    Subtotal: ${CURRENCY(it.price * it.qty)}`
-  ));
+  );
+
   const footer = `Total: ${CURRENCY(total)}
 
 Terima kasih! 🙏`;
-  return [header, '', ...info, '', ...lines, '', footer].join('
-');
+
+  // Susun final text tanpa .join('\n') yang rawan typo
+  return `${header}
+
+${info.join('\n')}
+
+${lines.join('\n')}
+
+${footer}`;
 };
 
   const openWA = (target = "seller") => {
-  // Format dengan newline asli lalu encode satu kali → WA akan jadi rapi
   const text = encodeURIComponent(makeText());
   const sellerNumber = "6285155178234";
   const url = target === "seller" && sellerNumber
@@ -258,6 +266,7 @@ Terima kasih! 🙏`;
     : `https://wa.me/?text=${text}`;
   window.open(url, "_blank");
 };
+
 
   const onPrint = () => {
     // Print view: open a minimal window with the order summary
