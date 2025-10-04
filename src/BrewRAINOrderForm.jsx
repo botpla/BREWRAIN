@@ -1,15 +1,14 @@
-
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Trash2, Plus, Minus, Coffee, Phone, ClipboardCheck, Printer } from "lucide-react";
-import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input";
-import { Textarea } from "./components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
-import { Badge } from "./components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 /**
- * BrewRAIN – Single-File Order Form (React)
+ * BrewRAIN – Single‑File Order Form (React)
  * --------------------------------------------------
  * • Tailwind + shadcn/ui + framer-motion
  * • Add items to cart, auto total, customer details
@@ -47,7 +46,7 @@ function Line() {
 function ProductCard({ p, onAdd }) {
   const [size, setSize] = useState(SIZES[0].id);
   const [qty, setQty] = useState(1);
-  const [ice, setIce] = useState(ICE_LEVELS[0]);
+  const [ice, setIce] = useState(ICE_LEVELS[2]);
   const [sugar, setSugar] = useState(SUGAR_LEVELS[3]);
   const [notes, setNotes] = useState("");
 
@@ -135,7 +134,7 @@ function ProductCard({ p, onAdd }) {
               qty,
             })}
           >
-            Tambah ke Keranjang
+            Tambah ke Keranjang 
           </Button>
         </div>
       </CardContent>
@@ -182,13 +181,13 @@ function OrderSummary({ cart, customer, onPrint, onWA }) {
             cart.map((it) => <CartItem key={it.id} item={it} onRemove={customer.onRemove} onQty={customer.onQty} />)
           )}
 
-          <div className="h-px w-full bg-gray-200 my-4" />
+          <Line />
           <div className="flex items-center justify-between text-base">
             <span className="font-semibold">Total</span>
             <span className="font-bold">{CURRENCY(total)}</span>
           </div>
 
-          <div className="h-px w-full bg-gray-200 my-4" />
+          <Line />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <label className="text-sm">Nama beserta Kelas</label>
@@ -231,40 +230,37 @@ export default function BrewRAINOrderForm() {
   const updateQty = (id, qty) => setCart((c) => c.map((x) => (x.id === id ? { ...x, qty } : x)));
 
   const makeText = () => {
-    const header = `*BrewRAIN – Order*`;
-    const info = [`Nama: ${name || '-'}\\nWA: ${phone || '-'}\\nAlamat: ${address || '-'}`];
-    const lines = cart.map((it, idx) => {
-      return `${idx + 1}. ${it.name} (${it.sizeLabel}) x${it.qty}\\n   Es: ${it.ice} • Gula: ${it.sugar}${it.notes ? `\\n   Note: ${it.notes}` : ''}\\n   Subtotal: ${CURRENCY(it.price * it.qty)}`;
-    });
-    const footer = `Total: *${CURRENCY(total)}*\\n\\nTerima kasih! 🙏`;
-    return [header, "", ...info, "", ...lines, "", footer].join("\\n");
-  };
+  const header = `*BrewRAIN – Order*`;
+  const info = [
+    `Nama: ${name || '-'}`,
+    `WA: ${phone || '-'}`,
+    `Alamat: ${address || '-'}`,
+  ];
+  const lines = cart.map((it, idx) => (
+    `${idx + 1}. ${it.name} (${it.sizeLabel}) x${it.qty}
+   Es: ${it.ice} • Gula: ${it.sugar}${it.notes ? `
+   Note: ${it.notes}` : ''}
+   Subtotal: ${CURRENCY(it.price * it.qty)}`
+  ));
+  const footer = `Total: ${CURRENCY(total)}
+
+Terima kasih! 🙏`;
+  return [header, '', ...info, '', ...lines, '', footer].join('
+');
+};
 
   const openWA = (target = "seller") => {
-  // Ambil pesan mentah
-  const message = makeText();
-
-  // Ganti semua baris baru dengan kode enter WA
-  // lalu encode seluruh string (jangan encode dua kali!)
-  const text = encodeURI(message.replace(/\n/g, "%0A"));
-
-  // Nomor WA toko
+  // Format dengan newline asli lalu encode satu kali → WA akan jadi rapi
+  const text = encodeURIComponent(makeText());
   const sellerNumber = "6285155178234";
-
-  // Buat URL WA
-  const url =
-    target === "seller" && sellerNumber
-      ? `https://wa.me/${sellerNumber}?text=${text}`
-      : `https://wa.me/?text=${text}`;
-
-  // Buka WA
+  const url = target === "seller" && sellerNumber
+    ? `https://wa.me/${sellerNumber}?text=${text}`
+    : `https://wa.me/?text=${text}`;
   window.open(url, "_blank");
 };
 
-
-
-
   const onPrint = () => {
+    // Print view: open a minimal window with the order summary
     const w = window.open("", "_blank");
     if (!w) return;
     const html = `<!doctype html>
