@@ -241,20 +241,26 @@ export default function BrewRAINOrderForm() {
   };
 
   const openWA = (target = "seller") => {
-  // Ambil teks mentah dari makeText()
+  // Ambil pesan mentah
   const message = makeText();
 
-  // Ganti baris baru \n jadi kode enter yang dikenali WhatsApp (%0A)
-  const text = message.replace(/\n/g, "%0A");
+  // Ganti semua baris baru dengan kode enter WA
+  // lalu encode seluruh string (jangan encode dua kali!)
+  const text = encodeURI(message.replace(/\n/g, "%0A"));
 
+  // Nomor WA toko
   const sellerNumber = "6285155178234";
+
+  // Buat URL WA
   const url =
     target === "seller" && sellerNumber
       ? `https://wa.me/${sellerNumber}?text=${text}`
       : `https://wa.me/?text=${text}`;
 
+  // Buka WA
   window.open(url, "_blank");
 };
+
 
 
 
