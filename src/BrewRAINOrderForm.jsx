@@ -25,9 +25,9 @@ const CURRENCY = (n) => new Intl.NumberFormat("id-ID", { style: "currency", curr
 
 const PRODUCTS = [
   { id: "matcha", name: "Matcha Latte", basePrice: 15000 },
-  { id: "aren", name: "Aren Latte", basePrice: 15000 },
-  { id: "vanilla", name: "Vanilla Latte", basePrice: 15000 },
-  { id: "caffe", name: "BRAIN Latte", basePrice: 15000 },
+  { id: "aren", name: "Aren Latte (Kopi Susu Gula Aren)", basePrice: 15000 },
+  { id: "vanilla", name: "Vanilla Latte (kosong)", basePrice: 15000 },
+  { id: "caffe", name: "BRAIN Latte (Caffe Latte)", basePrice: 15000 },
   { id: "thai", name: "Thai Tea", basePrice: 15000 },
   { id: "green", name: "Green Tea", basePrice: 15000 },
   { id: "coklat", name: "Choco Luxe", basePrice: 15000 },
@@ -38,7 +38,7 @@ const SIZES = [
 ];
 
 const ICE_LEVELS = ["Normal"];
-const SUGAR_LEVELS = ["0%", "25%", "50%", "75%", "100%"];
+const SUGAR_LEVELS = ["0g/ml", "1g/ml", "2g/ml", "3g/ml", "4g/ml", "5g/ml", "6g/ml", "7g/ml", "8g/ml", "9g/ml", "10g/ml", "11g/ml", "12g/ml", "13g/ml", "14g/ml", "15g/ml", "16g/ml", "17g/ml", "18g/ml", "19g/ml", "20g/ml", "21g/ml", "22g/ml", "23g/ml"];
 
 function Line() {
   return <div className="h-px w-full bg-gray-200 my-4" />;
